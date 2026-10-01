@@ -1,0 +1,42 @@
+.dash-welcome {
+  margin: 0 0 4px;
+  font-size: 26px;
+}
+
+.dash-role {
+  margin: 0 0 24px;
+  color: #6b7280;
+  text-transform: capitalize;
+}
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.dash-card {
+  display: block;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+}
+
+.dash-card:hover {
+  border-color: #9ca3af;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.dash-card-title {
+  margin: 0 0 4px;
+  font-size: 18px;
+}
+
+.dash-card-text {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}

@@ -1,0 +1,297 @@
+/* Layout: brand panel on the left, form on the right */
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Brand panel */
+.login-brand {
+  /* LOGO SIZE: change this number to make the logo bigger or smaller. */
+  --logo-size: 220px;
+
+  /* LOGO POSITION: the logo starts centered in the panel.
+     Positive numbers move it right (e.g. 60px), negative numbers move it left. */
+  --logo-x: 0px;
+
+  /* Moves the logo and headline block down to make room for a bigger logo.
+     Use 0px to keep them where they were. The store name at the top and the
+     copyright line at the bottom never move. */
+  --content-shift: 115px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px;
+  color: #fff;
+  background: linear-gradient(160deg, #111827 0%, #1f2937 60%, #374151 100%);
+}
+
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.login-logo-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.login-logo span,
+.login-mobile-logo span {
+  line-height: 1.2;
+}
+
+/* The headline block. The logo is attached to its top edge. */
+.login-brand-main {
+  position: relative;
+  top: var(--content-shift, 0px);
+}
+
+.login-brand-logo {
+  position: absolute;
+  bottom: 100%; /* sits directly above "Sell faster. Stock smarter." */
+  left: calc(50% - var(--logo-size) / 2 + var(--logo-x)); /* centered, plus the nudge */
+  margin-bottom: 24px; /* gap between the logo and the headline */
+  width: var(--logo-size);
+  height: var(--logo-size);
+  padding: 10px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 14px;
+}
+
+.login-brand-title {
+  margin: 0 0 16px;
+  font-size: 36px;
+}
+
+.login-brand-text {
+  margin: 0;
+  max-width: 420px;
+  color: #d1d5db;
+}
+
+.login-features {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  color: #e5e7eb;
+}
+
+.login-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-features li::before {
+  content: "\2713";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  font-size: 13px;
+}
+
+.login-brand-footer {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+/* Very short screens: a smaller logo so everything still fits */
+@media (max-height: 600px) {
+  .login-brand {
+    --logo-size: 100px;
+    --content-shift: 0px;
+  }
+}
+
+/* Form panel */
+.login-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background: #fff;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 380px;
+}
+
+.login-mobile-logo {
+  display: none;
+}
+
+.login-title {
+  margin: 0 0 4px;
+  font-size: 26px;
+}
+
+.login-subtitle {
+  margin: 0 0 24px;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.login-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.login-input {
+  width: 100%;
+  padding: 11px 12px;
+  margin-bottom: 16px;
+  font-size: 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.login-input:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+.login-password-row {
+  position: relative;
+}
+
+.login-password-row .login-input {
+  padding-right: 64px;
+}
+
+.login-toggle {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  padding: 4px 8px;
+  border: none;
+  background: none;
+  color: #2563eb;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.login-forgot-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: -6px 0 16px;
+}
+
+.login-link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #2563eb;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.login-link:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.login-link:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-alert {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.login-alert-error {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.login-alert-info {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #1f2937;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-button:hover:not(:disabled) {
+  background: #374151;
+}
+
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Phones and tablets: single column, brand panel hidden */
+@media (max-width: 800px) {
+  .login-page {
+    grid-template-columns: 1fr;
+  }
+
+  .login-brand {
+    display: none;
+  }
+
+  .login-panel {
+    background: #f3f4f6;
+    padding: 16px;
+  }
+
+  .login-form {
+    padding: 28px 24px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .login-mobile-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .login-mobile-logo .login-logo-icon {
+    width: 32px;
+    height: 32px;
+    color: #1f2937;
+  }
+}
+
+/* LOGO SIZE on the phone layout: change width and height together */
+.login-mobile-logo-img {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}

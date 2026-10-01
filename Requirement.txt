@@ -1,0 +1,67 @@
+
+ARCHITECTURE
+supermarket/
+├── .env
+├── firestore.rules
+├── firebase.json
+└── src/
+    ├── main.jsx
+    ├── App.jsx                  # routes
+    ├── firebase.js              # app, auth, db
+    │
+    ├── context/
+    │   └── AuthContext.jsx      # user + role
+    │
+    ├── routes/
+    │   ├── ProtectedRoute.jsx   # must be logged in
+    │   └── RoleRoute.jsx        # must have the right role
+    │
+    ├── hooks/
+    │   ├── useBarcodeScanner.js
+    │   └── useProducts.js
+    │
+    ├── services/                # all Firestore code lives here
+    │   ├── productService.js    # get, add, update, search by barcode
+    │   ├── salesService.js      # completeSale (transaction), list sales
+    │   ├── stockService.js      # receiveStock (transaction), history
+    │   └── userService.js       # roles, staff management
+    │
+    ├── pages/
+    │   ├── Login.jsx
+    │   ├── Dashboard.jsx
+    │   ├── Sales.jsx            # scan, cart, checkout
+    │   ├── Receiving.jsx        # scan incoming packages
+    │   ├── Products.jsx         # list, add, edit, low-stock
+    │   ├── SalesHistory.jsx
+    │   ├── Reports.jsx          # daily totals, best sellers
+    │   └── Staff.jsx            # admin only
+    │
+    ├── components/
+    │   ├── Layout.jsx           # navbar and sidebar
+    │   ├── Cart.jsx
+    │   ├── ScanInput.jsx        # visible input and scan status
+    │   ├── ProductForm.jsx      # also used for unknown barcodes
+    │   ├── Receipt.jsx          # print layout
+    │   └── LowStockBadge.jsx
+    │
+    └── utils/
+        ├── format.js            # currency, dates
+        └── sounds.js            # beep success/error
+
+HIGH LAYOUT
+React (Vite) front end  ──►  Firebase Auth      (login, roles)
+                        ──►  Firestore          (products, sales, stock, users)
+                        ──►  Firebase Hosting   (deploy)
+                        (optional later: Cloud Functions for reports and safeguards)
+Barcode scanner (USB/Bluetooth) ──► acts as a keyboard ──► useBarcodeScanner hooks
+
+MAIN FLOWS
+Sale: scan barcode → look up products/{barcode} 
+→ add to cart (repeat scan adds quantity) 
+→ checkout 
+→ one transaction reduces stock and creates the sales document 
+→ print receipt.
+
+Receiving: scan barcode 
+→ if known, enter quantity received; if unknown, open the new-product form 
+→ confirm → one transaction increases stock and creates the stockReceipts document.

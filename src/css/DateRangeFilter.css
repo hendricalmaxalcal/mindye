@@ -1,0 +1,49 @@
+.drf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.drf-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.drf-preset.active {
+  background: #1f2937;
+  border-color: #1f2937;
+  color: #fff;
+}
+
+.drf-preset.active:hover:not(:disabled) {
+  background: #374151;
+}
+
+.drf-field {
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.drf-input {
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.drf-extra {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-left: auto;
+}

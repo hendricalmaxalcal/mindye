@@ -1,0 +1,73 @@
+/* Hidden on screen, shown only when printing */
+.receipt-print {
+  display: none;
+}
+
+.receipt-store {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.receipt-center {
+  text-align: center;
+}
+
+.receipt-line {
+  margin: 6px 0;
+  border: 0;
+  border-top: 1px dashed #000;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.receipt-item {
+  margin-bottom: 4px;
+}
+
+.receipt-total {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@media print {
+  /* 80mm thermal paper. For 58mm paper use size: 58mm auto and width: 48mm */
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  /* Hide the whole app, so only the receipt prints */
+  #root {
+    display: none !important;
+  }
+
+  .receipt-print {
+    display: block;
+    width: 72mm;
+    margin: 0 auto;
+    padding: 4mm 0;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    line-height: 1.35;
+    color: #000;
+  }
+}
+
+/* Receipt logo: printed in black and white with extra contrast */
+.receipt-logo {
+  display: block;
+  width: 36mm; /* change this to resize the logo on the receipt */
+  max-width: 100%;
+  margin: 0 auto 6px;
+  filter: grayscale(1) contrast(1.4);
+}

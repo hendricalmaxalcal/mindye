@@ -1,0 +1,86 @@
+.sh-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.sh-stat {
+  flex: 1;
+  min-width: 150px;
+}
+
+.sh-stat-label {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.sh-stat-value {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.sh-note {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 14px;
+}
+
+.sh-empty {
+  padding: 24px;
+  text-align: center;
+}
+
+.sh-num {
+  text-align: right !important;
+  white-space: nowrap;
+}
+
+.sh-row {
+  cursor: pointer;
+}
+
+.sh-row:hover {
+  background: #f9fafb;
+}
+
+.sh-detail td {
+  background: #f9fafb;
+}
+
+.sh-items {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.sh-items th,
+.sh-items td {
+  padding: 6px 8px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sh-items th.sh-num,
+.sh-items td.sh-num {
+  text-align: right;
+}
+
+.sh-code {
+  margin-left: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.sh-pay {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #374151;
+}
+
+.sh-print {
+  margin-top: 10px;
+}
