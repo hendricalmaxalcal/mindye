@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { STORE } from "../config/store";
+import OfflineBanner from "./OfflineBanner";
 import "../css/Layout.css";
 
 const MENU = [
@@ -10,8 +11,10 @@ const MENU = [
   { to: "/receiving", label: "Receiving", roles: ["admin", "saler"] },
   { to: "/products", label: "Products", roles: ["admin", "saler"] },
   { to: "/history", label: "History", roles: ["admin"] },
+  { to: "/stock-log", label: "Stock log", roles: ["admin"] },
   { to: "/reports", label: "Reports", roles: ["admin"] },
   { to: "/staff", label: "Staff", roles: ["admin"] },
+  { to: "/backup", label: "Backup", roles: ["admin"] },
 ];
 
 export default function Layout() {
@@ -57,6 +60,8 @@ export default function Layout() {
           </button>
         </div>
       </header>
+
+      <OfflineBanner />
 
       <main className="layout-main">
         <Outlet />

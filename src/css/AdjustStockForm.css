@@ -1,0 +1,64 @@
+.asf-form {
+  display: grid;
+  gap: 14px;
+}
+
+.asf-current {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #f3f4f6;
+}
+
+.asf-label {
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.asf-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.asf-input:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+.asf-zero {
+  justify-self: start;
+}
+
+.asf-diff {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.asf-diff-down {
+  color: #b91c1c;
+}
+
+.asf-diff-up {
+  color: #166534;
+}
+
+.asf-error {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 14px;
+}
+
+.asf-actions {
+  display: flex;
+  gap: 8px;
+}

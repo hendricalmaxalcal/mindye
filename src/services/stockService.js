@@ -1,6 +1,14 @@
 import { collection, doc, runTransaction, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 
+export const ADJUST_REASONS = [
+  { value: "expired", label: "Expired" },
+  { value: "damaged", label: "Damaged" },
+  { value: "lost", label: "Lost or stolen" },
+  { value: "count", label: "Stock count correction" },
+  { value: "other", label: "Other" },
+];
+
 export async function receiveStock({ items, supplier, receiver }) {
   if (!items || items.length === 0) {
     throw new Error("The delivery list is empty.");
@@ -55,4 +63,43 @@ export async function receiveStock({ items, supplier, receiver }) {
   });
 
   return { id: receiptRef.id, ...summary };
+}
+
+// Admin only: set a product's stock to the real quantity and record why.
+export async function adjustStock({ barcode, newQty, reason, note, admin }) {
+  const qty = Number(newQty);
+  if (!Number.isInteger(qty) || qty < 0) {
+    throw new Error("Enter a whole number, 0 or more.");
+  }
+  if (!ADJUST_REASONS.some((r) => r.value === reason)) {
+    throw new Error("Choose a reason.");
+  }
+
+  const productRef = doc(db, "products", barcode);
+  const logRef = doc(collection(db, "stockAdjustments"));
+
+  await runTransaction(db, async (tx) => {
+    const snap = await tx.get(productRef);
+    if (!snap.exists()) throw new Error("This product no longer exists.");
+
+    const p = snap.data();
+    const before = Number(p.stock) || 0;
+    if (before === qty) {
+      throw new Error("That is the same as the current stock.");
+    }
+
+    tx.update(productRef, { stock: qty, updatedAt: serverTimestamp() });
+    tx.set(logRef, {
+      barcode,
+      name: p.name,
+      stockBefore: before,
+      stockAfter: qty,
+      change: qty - before,
+      reason,
+      note: String(note || "").trim(),
+      adjustedBy: admin.id,
+      adjustedByName: admin.name || "",
+      createdAt: serverTimestamp(),
+    });
+  });
 }

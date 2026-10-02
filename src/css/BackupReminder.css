@@ -1,0 +1,17 @@
+.bkr {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border: 1px solid #93c5fd;
+  border-radius: 10px;
+  background: #dbeafe;
+  color: #1e40af;
+  text-decoration: none;
+}
+
+.bkr:hover {
+  background: #bfdbfe;
+}

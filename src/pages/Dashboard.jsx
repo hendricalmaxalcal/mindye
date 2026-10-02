@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import LowStockAlert from "../components/LowStockAlert";
+import BackupReminder from "../components/BackupReminder";
 import "../css/Dashboard.css";
 
 const SHORTCUTS = [
@@ -29,9 +30,21 @@ const SHORTCUTS = [
     roles: ["admin"],
   },
   {
+    to: "/stock-log",
+    title: "Stock log",
+    text: "Deliveries and stock adjustments",
+    roles: ["admin"],
+  },
+  {
     to: "/reports",
     title: "Reports",
     text: "Daily totals and best sellers",
+    roles: ["admin"],
+  },
+  {
+    to: "/backup",
+    title: "Backup and export",
+    text: "Download your data safely",
     roles: ["admin"],
   },
   {
@@ -51,6 +64,7 @@ export default function Dashboard() {
       <p className="dash-role">{role}</p>
 
       {role === "admin" && <LowStockAlert />}
+      {role === "admin" && <BackupReminder />}
 
       <div className="dash-grid">
         {SHORTCUTS.filter((s) => s.roles.includes(role)).map((s) => (

@@ -5,7 +5,9 @@ import Products from "./pages/Products";
 import Sales from "./pages/Sales";
 import Receiving from "./pages/Receiving";
 import SalesHistory from "./pages/SalesHistory";
+import StockLog from "./pages/StockLog";
 import Reports from "./pages/Reports";
+import Backup from "./pages/Backup";
 import Staff from "./pages/Staff";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -53,10 +55,26 @@ export default function App() {
           }
         />
         <Route
+          path="/stock-log"
+          element={
+            <RoleRoute allow={["admin"]}>
+              <StockLog />
+            </RoleRoute>
+          }
+        />
+        <Route
           path="/reports"
           element={
             <RoleRoute allow={["admin"]}>
               <Reports />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/backup"
+          element={
+            <RoleRoute allow={["admin"]}>
+              <Backup />
             </RoleRoute>
           }
         />

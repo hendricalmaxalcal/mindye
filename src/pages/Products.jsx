@@ -1,21 +1,24 @@
 import { useEffect, useMemo, useState } from "react";
 import useProducts from "../hooks/useProducts";
 import { useAuth } from "../context/AuthContext";
+import { adjustStock } from "../services/stockService";
 import ProductForm from "../components/ProductForm";
+import AdjustStockForm from "../components/AdjustStockForm";
 import LowStockBadge from "../components/LowStockBadge";
 import { formatMoney } from "../utils/format";
 import { stockStatus } from "../utils/stock";
 import "../css/Products.css";
 
 export default function Products() {
-  const { role } = useAuth();
+  const { user, profile, role } = useAuth();
   const canEdit = role === "admin";
 
-  const { products, loading, error, create, edit, remove } = useProducts();
+  const { products, loading, error, create, edit, remove, refresh } =
+    useProducts();
 
   const [search, setSearch] = useState("");
   const [lowOnly, setLowOnly] = useState(false);
-  // null, { mode: "add" } or { mode: "edit", product }
+  // null, { mode: "add" }, { mode: "edit", product } or { mode: "adjust", product }
   const [modal, setModal] = useState(null);
   const [notice, setNotice] = useState(null); // { type, text }
   const [busyId, setBusyId] = useState("");
@@ -58,6 +61,20 @@ export default function Products() {
     setModal(null);
   };
 
+  const handleAdjust = async (data) => {
+    const product = modal.product;
+    await adjustStock({
+      barcode: product.id,
+      newQty: data.newQty,
+      reason: data.reason,
+      note: data.note,
+      admin: { id: user.uid, name: profile?.name },
+    });
+    setNotice({ type: "ok", text: `Stock updated for "${product.name}".` });
+    setModal(null);
+    refresh();
+  };
+
   const handleDelete = async (p) => {
     if ((Number(p.stock) || 0) !== 0) return;
 
@@ -82,6 +99,14 @@ export default function Products() {
       setBusyId("");
     }
   };
+
+  const modalTitle = !modal
+    ? ""
+    : modal.mode === "add"
+    ? "Add product"
+    : modal.mode === "edit"
+    ? `Edit: ${modal.product.name}`
+    : `Adjust stock: ${modal.product.name}`;
 
   return (
     <div>
@@ -108,7 +133,10 @@ export default function Products() {
 
         {canEdit && (
           <button
-            onClick={() => setModal({ mode: "add" })}
+            onClick={() => {
+              setNotice(null);
+              setModal({ mode: "add" });
+            }}
             className="btn btn-primary"
           >
             + Add product
@@ -178,6 +206,17 @@ export default function Products() {
                             Edit
                           </button>
                           <button
+                            onClick={() => {
+                              setNotice(null);
+                              setModal({ mode: "adjust", product: p });
+                            }}
+                            disabled={busyId === p.id}
+                            title="Correct the stock (expired, damaged, lost, recount)"
+                            className="btn"
+                          >
+                            Adjust stock
+                          </button>
+                          <button
                             onClick={() => handleDelete(p)}
                             disabled={hasStock || busyId === p.id}
                             title={
@@ -211,17 +250,23 @@ export default function Products() {
       {modal && (
         <div className="modal-overlay" onClick={() => setModal(null)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <h2 className="modal-title">
-              {modal.mode === "edit"
-                ? `Edit: ${modal.product.name}`
-                : "Add product"}
-            </h2>
-            <ProductForm
-              key={modal.mode === "edit" ? modal.product.id : "new"}
-              initialValues={modal.mode === "edit" ? modal.product : undefined}
-              onSubmit={handleSubmit}
-              onCancel={() => setModal(null)}
-            />
+            <h2 className="modal-title">{modalTitle}</h2>
+
+            {modal.mode === "adjust" ? (
+              <AdjustStockForm
+                key={modal.product.id}
+                product={modal.product}
+                onSubmit={handleAdjust}
+                onCancel={() => setModal(null)}
+              />
+            ) : (
+              <ProductForm
+                key={modal.mode === "edit" ? modal.product.id : "new"}
+                initialValues={modal.mode === "edit" ? modal.product : undefined}
+                onSubmit={handleSubmit}
+                onCancel={() => setModal(null)}
+              />
+            )}
           </div>
         </div>
       )}
