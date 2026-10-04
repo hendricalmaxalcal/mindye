@@ -5,6 +5,7 @@ import {
   createSaler,
   updateSaler,
   setSalerActive,
+  deleteSaler,
   sendStaffReset,
 } from "../services/userService";
 import "../css/Staff.css";
@@ -169,6 +170,33 @@ export default function Staff() {
     }
   };
 
+  const handleDelete = async (s) => {
+    const sure = window.confirm(
+      `Delete ${s.name} permanently?\n\n` +
+        "Their past sales stay in the history under their name. " +
+        "They will be removed from this list and cannot be restored.\n\n" +
+        "Note: their login still exists in Firebase. To add someone with the " +
+        "same email later, also delete that login in Firebase > " +
+        "Authentication > Users."
+    );
+    if (!sure) return;
+
+    setBusyId(s.id);
+    try {
+      await deleteSaler(s.id);
+      setNotice({ type: "ok", text: `${s.name} was deleted.` });
+      reload();
+    } catch (err) {
+      console.error(err);
+      setNotice({
+        type: "error",
+        text: err.message || "Could not delete the account.",
+      });
+    } finally {
+      setBusyId("");
+    }
+  };
+
   const resetPassword = async (s) => {
     if (!window.confirm(`Send a password reset email to ${s.email}?`)) return;
     setBusyId(s.id);
@@ -254,6 +282,15 @@ export default function Staff() {
                           >
                             {isActive ? "Deactivate" : "Reactivate"}
                           </button>
+                          {!isActive && (
+                            <button
+                              className="btn btn-danger"
+                              disabled={busyId === s.id}
+                              onClick={() => handleDelete(s)}
+                            >
+                              Delete
+                            </button>
+                          )}
                         </>
                       ) : (
                         <span className="staff-muted">Managed in Firebase</span>

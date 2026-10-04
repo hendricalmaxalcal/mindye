@@ -12,6 +12,7 @@ import {
   getDocs,
   setDoc,
   updateDoc,
+  runTransaction,
   serverTimestamp,
 } from "firebase/firestore";
 import { auth, db } from "../firebase";
@@ -70,7 +71,9 @@ export async function createSaler({ name, email, password }) {
     return cred.user.uid;
   } catch (err) {
     if (err.code === "auth/email-already-in-use") {
-      throw new Error("An account with this email already exists.");
+      throw new Error(
+        "An account with this email already exists. If it belonged to a deleted saler, remove that login in Firebase > Authentication > Users first."
+      );
     }
     if (err.code === "auth/invalid-email") {
       throw new Error("Enter a valid email address.");
@@ -98,6 +101,26 @@ export async function setSalerActive(uid, active) {
   await updateDoc(doc(db, "users", uid), {
     active: Boolean(active),
     updatedAt: serverTimestamp(),
+  });
+}
+
+// Deletes a saler's profile. Only allowed once the account is deactivated.
+export async function deleteSaler(uid) {
+  const ref = doc(db, "users", uid);
+
+  await runTransaction(db, async (tx) => {
+    const snap = await tx.get(ref);
+    if (!snap.exists()) {
+      throw new Error("This account no longer exists.");
+    }
+    const data = snap.data();
+    if (data.role !== "saler") {
+      throw new Error("Only saler accounts can be deleted.");
+    }
+    if (data.active !== false) {
+      throw new Error("Deactivate the account before deleting it.");
+    }
+    tx.delete(ref);
   });
 }
 
