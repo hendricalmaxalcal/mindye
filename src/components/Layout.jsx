@@ -10,6 +10,7 @@ const MENU = [
   { to: "/sales", label: "Sales", roles: ["admin", "saler"] },
   { to: "/receiving", label: "Receiving", roles: ["admin", "saler"] },
   { to: "/products", label: "Products", roles: ["admin", "saler"] },
+  { to: "/my-sales", label: "My sales", roles: ["saler"] },
   { to: "/history", label: "History", roles: ["admin"] },
   { to: "/stock-log", label: "Stock log", roles: ["admin"] },
   { to: "/reports", label: "Reports", roles: ["admin"] },

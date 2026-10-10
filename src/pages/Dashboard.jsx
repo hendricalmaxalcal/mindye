@@ -24,6 +24,12 @@ const SHORTCUTS = [
     roles: ["admin", "saler"],
   },
   {
+    to: "/my-sales",
+    title: "My sales",
+    text: "See the sales you made",
+    roles: ["saler"],
+  },
+  {
     to: "/history",
     title: "Sales history",
     text: "Look back at past sales",

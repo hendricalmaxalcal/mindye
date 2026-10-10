@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
 import Sales from "./pages/Sales";
+import MySales from "./pages/MySales";
 import Receiving from "./pages/Receiving";
 import SalesHistory from "./pages/SalesHistory";
 import StockLog from "./pages/StockLog";
@@ -35,6 +36,14 @@ export default function App() {
           element={
             <RoleRoute allow={["admin", "saler"]}>
               <Sales />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/my-sales"
+          element={
+            <RoleRoute allow={["saler"]}>
+              <MySales />
             </RoleRoute>
           }
         />
