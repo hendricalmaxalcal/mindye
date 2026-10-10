@@ -45,12 +45,12 @@ export default function MySales() {
         <>
           <div className="sh-stats">
             <div className="card sh-stat">
-              <div className="sh-stat-label">Sales made</div>
-              <div className="sh-stat-value">{sales.length}</div>
+              <div className="sh-stat-label">Total sales</div>
+              <div className="sh-stat-value">{formatMoney(totals.cash)}</div>
             </div>
             <div className="card sh-stat">
-              <div className="sh-stat-label">Cash collected</div>
-              <div className="sh-stat-value">{formatMoney(totals.cash)}</div>
+              <div className="sh-stat-label">Number of sales</div>
+              <div className="sh-stat-value">{sales.length}</div>
             </div>
             <div className="card sh-stat">
               <div className="sh-stat-label">Units sold</div>
@@ -138,6 +138,19 @@ export default function MySales() {
                     );
                   })}
                 </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan={2}>
+                      <strong>Total</strong>
+                    </td>
+                    <td className="sh-num">
+                      <strong>{totals.units}</strong>
+                    </td>
+                    <td className="sh-num">
+                      <strong>{formatMoney(totals.cash)}</strong>
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           )}
